@@ -7,7 +7,7 @@ from routes.auth.authController import router as authRouter
 ml_service.onCreateMLService()
 app = FastAPI()
 app.include_router(predictionRouter)
-# app.include_router(authRouter)
+app.include_router(authRouter)
 
 
 @app.get("/")
@@ -15,7 +15,7 @@ async def root():
     return {"message": "hello hacker!"}
 
 @app.get("/teams")
-async def getAvailableTeams():
+async def get_available_teams():
     return {
         "teams": [ 'Qatar', 'Senegal', 'Netherlands', 'Ecuador',
                      'England', 'USA', 'Iran', 'Wales',
