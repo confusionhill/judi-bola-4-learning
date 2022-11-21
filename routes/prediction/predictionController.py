@@ -6,6 +6,7 @@ from services.predictionService import predict_winner
 
 router = APIRouter(prefix="/predict")
 
-@router.post("/",dependencies=[Depends(JWTBearer())])
+# @router.post("/",dependencies=[Depends(JWTBearer())])
+@router.post("/")
 def getPrediction(playing: TeamPlaying):
     return predict_winner(playing)
