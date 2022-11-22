@@ -1,0 +1,21 @@
+name: judi-bola-4-tst
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: | 
+        git fetch --prune --unshallow  
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+#    - name: Run Docker Image
+#      run : docker run -d --name judi-bola
