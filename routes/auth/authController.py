@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post("/register")
 async def create_user(user: User):
     if (len(user.username) < 5 or len(user.username) > 16):
-        raise HTTPException(status_code=500, detail="username does not fulfill the requirement")
+        raise HTTPException(status_code=500, detail="username does not fulfill the requirements")
     if (len(user.password) < 8 or len(user.password) > 25):
         raise HTTPException(status_code=500, detail="Requirement not fulfilled")
     data = {"username": user.username, "password": authService.hash_password(user.password), "name": user.name}
