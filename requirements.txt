@@ -2,6 +2,7 @@ fastapi
 pydantic
 joblib
 numpy
+pymysql
 SQLAlchemy
 bcrypt
 pandas
