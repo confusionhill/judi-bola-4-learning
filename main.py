@@ -23,6 +23,7 @@ async def root():
     tstamp = dtzone.timestamp()
     return {
         "msg":"Hello Hacker",
+        "msg2": "plzzzz dont hek my vm, i'm poor",
         "access-time": dtzone
         }
 
