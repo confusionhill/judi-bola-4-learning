@@ -1,5 +1,5 @@
 #
-FROM python:3.9-alpine3.15
+FROM python:3.11.0-buster
 
 #
 WORKDIR ./
