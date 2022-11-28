@@ -62,4 +62,4 @@ jobs:
            # Run image and open port
            docker run -d -p 80:8000 --name dika-container 18220015/tst-judibola
            echo "container started succesfully"
-           docker cp /usr/share/secrets dika-container:./
+           docker cp /usr/share/secrets dika-container:./.env
