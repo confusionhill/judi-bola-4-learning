@@ -1,30 +1,22 @@
-from fastapi import APIRouter, HTTPException
+from typing import Optional
+
+from fastapi import APIRouter, Header
 from model.UserModel import User, UserLogin
-from services.authentication.authHandler import signJWT
-from services.authentication.auth_service import authService
-from services.database.database_manager import conn
-from sqlalchemy.sql import text
+from routes.auth.auth_service import register_user, sign_in_user
+from services.authentication.authHandler import decode_refresh_token, sign_refresh_token, signJWT
+
 router = APIRouter()
 
 @router.post("/register")
 async def create_user(user: User):
-    if (len(user.username) < 5 or len(user.username) > 16):
-        raise HTTPException(status_code=500, detail="username does not fulfill the requirements")
-    if (len(user.password) < 8 or len(user.password) > 25):
-        raise HTTPException(status_code=500, detail="Requirement not fulfilled")
-    data = {"username": user.username, "password": authService.hash_password(user.password), "name": user.name}
-    statement = text("""INSERT INTO users(username,password,name) VALUES(:username, :password, :name)""")
-    try:
-        conn.execute(statement, **data)
-        return signJWT(user.username)
-    except:
-        raise HTTPException(status_code=505, detail="Username not unique")
+    return await register_user(user);
 
 @router.post("/login")
-async def sign_in_user(user: UserLogin):
-    query = text("""SELECT * FROM users where username=:val""");
-    result = conn.execute(query, {'val': user.username })
-    for row in result:
-        if row[1] == user.username and authService.validate_password(password=user.password,hashed=row[2]):
-            return signJWT(user.username)
-    raise HTTPException(status_code=404, detail="User Not Found")
+async def sign_in(user: UserLogin):
+    return sign_in_user(user)
+
+@router.post("/refresh")
+async def refresh_token(refresh: Optional[str] = Header(None)):
+    result = decode_refresh_token(refresh)
+    token = signJWT(result['user_id'], result['username'])
+    return {"new-token": token},

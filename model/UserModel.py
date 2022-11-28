@@ -8,3 +8,12 @@ class User(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+class UserInformation:
+    username: str
+    name: str
+    coins: int
+
+class UserTopup(BaseModel):
+    id: int
+    amount: int
