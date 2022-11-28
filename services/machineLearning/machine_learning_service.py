@@ -1,7 +1,10 @@
 import joblib
 import numpy as np
 import pandas as pd
+
 from model.predictionModel import TeamPlaying, PredictionModel
+from services.database.database_manager import conn
+
 
 class MLService:
     ranking = None
@@ -64,13 +67,12 @@ class MLService:
 
     def predictResult(self,playing: TeamPlaying) -> PredictionModel:
         positions = []
+        result = conn.execute("SELECT * FROM Teams WHERE id")
         matches = [(playing.teamA, playing.teamB)]
-        print("step 1")
         # Get team position on fifa ranking
         for match in matches:
             positions.append(self.ranking.loc[self.ranking['Team'] == match[0], 'Position'].iloc[0])
             positions.append(self.ranking.loc[self.ranking['Team'] == match[1], 'Position'].iloc[0])
-        print("step 2")
         pred_set = []
         i = 0
         j = 0
@@ -97,7 +99,6 @@ class MLService:
     def predict(self, pred_set, backup_pred_set, playing) -> PredictionModel:
         predictions = self.logreg.predict(pred_set)
         for i in range(len(pred_set)):
-            print(backup_pred_set.iloc[i, 1] + " and " + backup_pred_set.iloc[i, 0])
             result = "Tie"
             if predictions[i] == 2:
                 result = backup_pred_set.iloc[i, 1]

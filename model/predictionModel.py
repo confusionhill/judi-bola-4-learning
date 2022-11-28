@@ -1,11 +1,15 @@
-from typing import Union
+from pydantic import BaseModel
 
-from fastapi import FastAPI
-from pydantic import BaseModel, EmailStr
-
-class TeamPlaying(BaseModel):
+class TeamPlaying():
+    def __init__(self, teamA, teamB):
+        self.teamA = teamA
+        self.teamB = teamB
     teamA: str
     teamB: str
+
+class TeamsGetter(BaseModel):
+    team_home_id: int
+    team_away_id: int
 
 class PredictionModel(BaseModel):
     teamA: str
