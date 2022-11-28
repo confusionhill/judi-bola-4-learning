@@ -4,7 +4,10 @@ from model.JudiModel import BetModel
 from routes.judi.judi_service import get_all_events
 from services.authentication.authBearer import JWTService, JWTBearer
 
-router = APIRouter(prefix="/judi")
+router = APIRouter(
+    prefix="/judi",
+    tags=["Judi"]
+)
 
 @router.post("/bet")
 async def place_bet(bet: BetModel, Authorize: JWTService = Depends(JWTBearer())):

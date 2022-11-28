@@ -1,7 +1,10 @@
 import joblib
 import numpy as np
 import pandas as pd
+
 from model.predictionModel import TeamPlaying, PredictionModel
+from services.database.database_manager import conn
+
 
 class MLService:
     ranking = None
@@ -64,6 +67,7 @@ class MLService:
 
     def predictResult(self,playing: TeamPlaying) -> PredictionModel:
         positions = []
+        result = conn.execute("SELECT * FROM Teams WHERE id")
         matches = [(playing.teamA, playing.teamB)]
         # Get team position on fifa ranking
         for match in matches:

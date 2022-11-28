@@ -5,7 +5,10 @@ from model.UserModel import UserInformation, UserTopup
 from services.authentication.authBearer import JWTBearer
 from services.database.database_manager import conn
 
-router = APIRouter(prefix="/user")
+router = APIRouter(
+    prefix="/user",
+    tags=["User"]
+)
 
 @router.post("/{id",dependencies=[Depends(JWTBearer())])
 async def getUserInformation(id: int):
