@@ -13,8 +13,6 @@ def sign_in_user(user: UserLogin):
             print(result)
             if row[1] == user.username and authService.validate_password(password=user.password, hashed=row[2]):
                 return {
-                    "username": user.username,
-                    "id": row[0],
                     "token": signJWT(row[0], user.username),
                     "refresh": sign_refresh_token(row[0], user.username)
                 }
@@ -36,8 +34,6 @@ async def register_user(user: User):
         conn.execute(statement, **data)
         for row in conn.execute(text("SELECT id from users where username=:username"),{"username": user.username}):
             return {
-                "username": user.username,
-                "id": row[0],
                 "token": signJWT(row[0], user.username),
                 "refresh": sign_refresh_token(row[0], user.username)
             }
