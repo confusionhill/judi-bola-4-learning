@@ -12,3 +12,4 @@ pyjwt
 pydantic
 python-dotenv
 cryptography
+httpx

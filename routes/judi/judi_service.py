@@ -1,6 +1,7 @@
-from model.JudiModel import EventModel
+from model.JudiModel import EventModel, BetModel
 from services.database.database_manager import conn
 from sqlalchemy.sql import text
+from fastapi import HTTPException
 
 def get_all_events():
     query = text("""
@@ -17,3 +18,26 @@ def get_all_events():
         model = EventModel(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
         models.append(model)
     return {"data": models} #models
+
+def place_bet(bet: BetModel, userId):
+    query = text("""
+    INSERT INTO users_event(bet, event_id, user_id, team_id ) VALUES (:bet, :event_id, :user_id, :team_id)
+    """)
+    try:
+        for coin in conn.execute(text("select coins from users where id =:id"), {"id": userId}):
+            coin = int(coin[0])
+            if coin < bet.amount:
+                return {
+                    "error": "You're low on coin"
+                }
+            newC = coin - bet.amount
+            conn.execute(text("update users set coins =:coin where id =:id"), {"coin": newC, "id": userId})
+        conn.execute(query, {
+            "bet": bet.amount,
+            "event_id": bet.event_id,
+            "user_id": userId,
+            "team_id": bet.team_id
+        })
+        return {"msg": "Success"}
+    except :
+        raise HTTPException(status_code=505, detail="Problem Adding your bet")
