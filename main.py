@@ -25,8 +25,7 @@ async def root():
         "msg":"Hello Hacker, welcome to 1820015's lair",
         "access-time": dtzone,
         "ps": "There's a secret!"
-
-        }
+    }
 
 @app.get("/teams")
 async def get_available_teams():
