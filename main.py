@@ -22,10 +22,10 @@ async def root():
     dtzone = timezone.localize(dtime)
     tstamp = dtzone.timestamp()
     return {
-        "msg":"Hello Hacker",
-        "msg2": "plzzzz dont hek my vm, i'm poor",
-        "access-time": dtzone
-        }
+        "msg":"Hello Hacker, welcome to 1820015's lair",
+        "access-time": dtzone,
+        "ps": "There's a secret!"
+    }
 
 @app.get("/teams")
 async def get_available_teams():

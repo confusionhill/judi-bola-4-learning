@@ -21,4 +21,4 @@ async def sign_in(user: UserLogin):
 async def refresh_token(refresh: Optional[str] = Header(None)):
     result = decode_refresh_token(refresh)
     token = signJWT(result['user_id'], result['username'])
-    return {"new-token": token},
+    return {"new-token": token}

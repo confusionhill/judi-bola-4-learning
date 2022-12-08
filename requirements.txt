@@ -2,6 +2,7 @@ fastapi
 pydantic
 joblib
 numpy
+pymysql
 SQLAlchemy
 bcrypt
 pandas
@@ -10,3 +11,5 @@ scikit-learn
 pyjwt
 pydantic
 python-dotenv
+cryptography
+httpx

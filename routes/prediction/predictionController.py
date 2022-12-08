@@ -11,7 +11,7 @@ router = APIRouter(
     tags=["Machine Learning"]
 )
 
-@router.post("/")
+@router.post("")
 def get_prediction(playing: TeamsGetter, Authorize: JWTService = Depends(JWTBearer())):
     teams = ["",""]
     for team in conn.execute(text("select * from Teams where id=:home or id =:away"),  {"home": playing.team_home_id , "away": playing.team_away_id}):

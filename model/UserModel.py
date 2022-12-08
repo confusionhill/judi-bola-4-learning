@@ -15,5 +15,4 @@ class UserInformation:
     coins: int
 
 class UserTopup(BaseModel):
-    id: int
     amount: int
