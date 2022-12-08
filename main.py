@@ -23,7 +23,9 @@ async def root():
     tstamp = dtzone.timestamp()
     return {
         "msg":"Hello Hacker, welcome to 1820015's lair",
-        "access-time": dtzone
+        "access-time": dtzone,
+        "ps": "There's a secret!"
+
         }
 
 @app.get("/teams")
