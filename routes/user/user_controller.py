@@ -10,9 +10,9 @@ router = APIRouter(
     tags=["User"]
 )
 
-@router.post("/{id",dependencies=[Depends(JWTBearer())])
-async def getUserInformation(id: int):
-    for user in conn.execute(text("select * from users where id=:id"), {"id":id}) :
+@router.get("")
+async def get_user_information(session: JWTService = Depends(JWTBearer())):
+    for user in conn.execute(text("select * from users where id=:id"), {"id": session.userId}) :
         p = UserInformation()
         p.username = user[1]
         p.name = user[3]
@@ -23,7 +23,7 @@ async def getUserInformation(id: int):
     return {}
 
 @router.post("/topup")
-async def toptup(user: UserTopup, session: JWTService = Depends(JWTBearer())):
+async def top_up_user(user: UserTopup, session: JWTService = Depends(JWTBearer())):
     try :
         query = text("update users set coins = coins +:coin where id =:id")
         conn.execute(query, {"coin": user.amount, "id": session.userId})
