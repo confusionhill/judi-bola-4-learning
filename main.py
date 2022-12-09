@@ -5,6 +5,7 @@ from services.machineLearning.machine_learning_service import ml_service
 from routes.auth.authController import router as authRouter
 from routes.user.user_controller import router as userRouter
 from services.database.database_manager import conn
+from sqlalchemy.sql import text
 import datetime
 import pytz
 
@@ -28,8 +29,10 @@ async def root():
     }
 
 @app.get("/teams")
-async def get_available_teams():
-    result = conn.execute("SELECT * FROM Teams")
+async def get_available_teams(page: int = 1, limit: int = 10):
+    last_page = limit*page
+    first_page = last_page - limit
+    result = conn.execute(text("SELECT * FROM Teams LIMIT :f1,:l1"), {"f1": first_page, "l1": last_page} )
     teams = []
     for team in result:
         teams.append({"id": team[0], "name":team[1]})

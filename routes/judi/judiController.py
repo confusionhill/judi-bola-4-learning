@@ -14,8 +14,8 @@ def place_user_bet(bet: BetModel, session: JWTService = Depends(JWTBearer())):
     return place_bet(bet, session.userId)
 
 @router.get("/events")
-def get_available_events():
-    return get_all_events()
+def get_available_events(limit: int = 10, page: int = 1):
+    return get_all_events(limit=limit, page=page)
 
 @router.get("/events/{id}")
 async def get_event_info(id: int):

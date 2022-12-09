@@ -30,10 +30,13 @@ async def top_up_user(user: UserTopup, session: JWTService = Depends(JWTBearer()
         return {"msg": "success"}
     except:
         raise HTTPException(status_code=505, detail="Problem Topuping your coins")
+
 @router.get("/mybet")
-async def get_my_bet(session: JWTService = Depends(JWTBearer())):
+async def get_my_bet(limit: int = 10, page: int = 1,session: JWTService = Depends(JWTBearer())):
     list_of_bets = []
-    query = text("select * from users_event where user_id =:id")
-    for bets in conn.execute(query, {"id": session.userId}):
+    last_page = page * limit
+    first_page = last_page - limit
+    query = text("select * from users_event where user_id =:id LIMIT :l1, :l2;")
+    for bets in conn.execute(query, {"id": session.userId, "l1":first_page, "l2": last_page}):
         list_of_bets.append(bets)
     return list_of_bets

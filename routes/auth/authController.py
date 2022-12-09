@@ -3,7 +3,6 @@ from typing import Optional
 from fastapi import APIRouter, Header
 from model.UserModel import User, UserLogin
 from routes.auth.auth_service import register_user, sign_in_user, refresh_session
-from services.authentication.authHandler import decode_refresh_token, sign_refresh_token, signJWT
 
 router = APIRouter(
     tags=["Authentication"]
