@@ -3,6 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Header
 from model.UserModel import User, UserLogin
 from routes.auth.auth_service import register_user, sign_in_user, refresh_session
+from services.authentication.authHandler import decode_refresh_token, sign_refresh_token, signJWT
 
 router = APIRouter(
     tags=["Authentication"]
@@ -18,4 +19,5 @@ async def sign_in(user: UserLogin):
 
 @router.post("/refresh")
 async def refresh_token(refresh: Optional[str] = Header(None)):
-    return refresh_session(refresh)
+    result = await refresh_session(refresh)
+    return result

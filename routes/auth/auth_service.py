@@ -43,7 +43,7 @@ async def register_user(user: User):
         raise HTTPException(status_code=505, detail="Username not unique")
 
 
-async def refresh_session(token: str):
+async def refresh_session(token):
     result = decode_refresh_token(token)
     token = signJWT(result['user_id'], result['username'])
     return {"new-token": token}
