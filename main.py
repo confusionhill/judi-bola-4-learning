@@ -24,7 +24,7 @@ async def root():
     dtzone = timezone.localize(dtime)
     tstamp = dtzone.timestamp()
     return {
-        "msg": "Hello Hacker :V",
+        "msg": "Hello Hacker :V ;)",
         "access-time": dtzone,
         "ps": "There's a secret!"
     }
