@@ -1,22 +1,23 @@
 from sqlalchemy.sql import text
 from model.UserModel import User, UserLogin
 from fastapi import HTTPException
-from services.authentication.authHandler import signJWT, sign_refresh_token
+from services.authentication.authHandler import signJWT, sign_refresh_token, decode_refresh_token
 from services.authentication.auth_service import authService
 from services.database.database_manager import conn
 
 def sign_in_user(user: UserLogin):
     query = text("""SELECT * FROM users WHERE username=:uname""");
-    try :
-        result = conn.execute(query, {"uname": user.username})
+    try:
+        print(user.username)
+        pp = f"{user.username}"
+        result = conn.execute(query, {"uname": pp})
         for row in result:
-            print(result)
+            print(row)
             if row[1] == user.username and authService.validate_password(password=user.password, hashed=row[2]):
                 return {
                     "token": signJWT(row[0], user.username),
                     "refresh": sign_refresh_token(row[0], user.username)
                 }
-        print(result)
     except:
         print("error")
     raise HTTPException(status_code=404, detail="User Not Found")
@@ -43,5 +44,7 @@ async def register_user(user: User):
 
 
 async def refresh_session(token: str):
-    pass
+    result = decode_refresh_token(token)
+    token = signJWT(result['user_id'], result['username'])
+    return {"new-token": token}
 

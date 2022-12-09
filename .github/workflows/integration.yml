@@ -46,9 +46,6 @@ jobs:
            echo "running script in server"
            # Login Docker
            docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-           # Pull image
-           docker pull 18220015/tst-judibola
-           echo "new image pulled"
            # Stop running container
            docker stop dika-container
            echo "old container stopped"
@@ -59,6 +56,9 @@ jobs:
            docker image prune -a
            yes | head -1
            echo "dangling image removed"
+           # Pull image
+           docker pull 18220015/tst-judibola
+           echo "new image pulled"
            # Run image and open port
            docker run -d -p 80:8000 --name dika-container 18220015/tst-judibola
            echo "container started succesfully"
